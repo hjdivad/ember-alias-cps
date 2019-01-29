@@ -1,31 +1,24 @@
 import Component from '@ember/component';
 import layout from '../templates/components/foo-widget';
-import { action, observes } from '@ember-decorators/object';
+import { observer } from '@ember/object';
 
-export default class FooWidget extends Component {
-  constructor(props) {
-    super(props);
-
-    this.chapterCountΔ = 0;
-    this.bitsCountΔ = 0;
-  }
-
-  @observes('book.chapterCount')
-  incrementChapterCountΔ() {
-    this.incrementProperty('chapterCountΔ');
-  }
-
-  @observes('book.chapterCount')
-  incrementBitsCountΔ() {
-    this.incrementProperty('bitsCountΔ');
-  }
-
-  @action
-  addBits() {
-    this.book.get('bits').pushObjects(['three', 'four', 'five']);
-  }
-}
-
-FooWidget.reopenClass({
+export default Component.extend({
   layout,
+
+  chapterCountΔ: 0,
+  bitsCountΔ: 0,
+
+  incrementChapterCountΔ: observer('book.chapterCount', function incrementChapterCountΔ() {
+    this.incrementProperty('chapterCountΔ');
+  }),
+
+  incrementbitsCountΔ: observer('book.bitsCount', function incrementbitsCountΔ() {
+    this.incrementProperty('bitsCountΔ');
+  }),
+
+  actions: {
+    addBits() {
+      this.book.get('bits').pushObjects(['three', 'four', 'five']);
+    }
+  }
 });
