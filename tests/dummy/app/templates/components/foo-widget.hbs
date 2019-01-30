@@ -1,3 +1,5 @@
+@ember/object/computed.alias:
+
 <ul>
   <li>chapterCount: {{@book.chapterCount}}</li>
   <li>bitsCount: {{@book.bitsCount}}</li>
@@ -8,4 +10,18 @@
   <li>bitsCountΔ: {{bitsCountΔ}}</li>
 </ul>
 
+
+ember-alias-cps.alias
+
+<ul>
+  <li>chapterCount: {{@book.acpChapterCount}}</li>
+  <li>bitsCount: {{@book.acpBitsCount}}</li>
+</ul>
+
+<ul>
+  <li>chapterCountΔ: {{acpChapterCountΔ}}</li>
+  <li>bitsCountΔ: {{acpBitsCountΔ}}</li>
+</ul>
+
 <button {{action "addBits"}}>Add bits</button>
+<button {{action "reset"}}>reset</button>
