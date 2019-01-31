@@ -1,27 +1,10 @@
-@ember/object/computed.alias:
+<div>
+  Author Name: {{authorName}}<br>
+  Writer Name: {{writerName}}<br>
+</div>
 
-<ul>
-  <li>chapterCount: {{@book.chapterCount}}</li>
-  <li>bitsCount: {{@book.bitsCount}}</li>
-</ul>
+<div>
+  <button {{action "pingBook"}}>ping Author</button>
+  <button {{action "pingAltBook"}}>ping Writer</button>
+</div>
 
-<ul>
-  <li>chapterCountΔ: {{chapterCountΔ}}</li>
-  <li>bitsCountΔ: {{bitsCountΔ}}</li>
-</ul>
-
-
-ember-alias-cps.alias
-
-<ul>
-  <li>chapterCount: {{@book.acpChapterCount}}</li>
-  <li>bitsCount: {{@book.acpBitsCount}}</li>
-</ul>
-
-<ul>
-  <li>chapterCountΔ: {{acpChapterCountΔ}}</li>
-  <li>bitsCountΔ: {{acpBitsCountΔ}}</li>
-</ul>
-
-<button {{action "addBits"}}>Add bits</button>
-<button {{action "reset"}}>reset</button>
