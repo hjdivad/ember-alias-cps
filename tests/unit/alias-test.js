@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import EmberObject, { observer } from '@ember/object';
-import { alias, readOnly, oneWay } from 'ember-alias-cps';
+import { reads, alias, readOnly, oneWay } from 'ember-alias-cps';
 
 module('unit/alias', function(hooks) {
   setupTest(hooks);
@@ -42,30 +42,32 @@ module('unit/alias', function(hooks) {
     assert.equal(obj.get('aFoo'), 3, 'obj.get(aFoo) after set(foo)');
   });
 
-  test(`oneWay semantics`, function(assert) {
-    let obj = EmberObject.extend({
-      aFoo: oneWay('foo'),
-    }).create();
+  [reads, oneWay].forEach(function (macro) {
+    test(`${macro.name} semantics`, function(assert) {
+      let obj = EmberObject.extend({
+        aFoo: oneWay('foo'),
+      }).create();
 
-    obj.set('foo', 1);
-    assert.equal(obj.get('foo'), 1, 'obj.get(foo)');
-    assert.equal(obj.get('aFoo'), 1, 'obj.get(aFoo)');
+      obj.set('foo', 1);
+      assert.equal(obj.get('foo'), 1, 'obj.get(foo)');
+      assert.equal(obj.get('aFoo'), 1, 'obj.get(aFoo)');
 
-    obj.set('foo', 2);
-    assert.equal(obj.get('foo'), 2, 'obj.get(foo) after set(foo)');
-    assert.equal(obj.get('aFoo'), 2, 'obj.get(aFoo) after set(foo)');
+      obj.set('foo', 2);
+      assert.equal(obj.get('foo'), 2, 'obj.get(foo) after set(foo)');
+      assert.equal(obj.get('aFoo'), 2, 'obj.get(aFoo) after set(foo)');
 
-    obj.set('aFoo', 3);
-    assert.equal(obj.get('foo'), 2, 'obj.get(foo) after set(aFoo)');
-    assert.equal(obj.get('aFoo'), 3, 'obj.get(aFoo) after set(aFoo)');
+      obj.set('aFoo', 3);
+      assert.equal(obj.get('foo'), 2, 'obj.get(foo) after set(aFoo)');
+      assert.equal(obj.get('aFoo'), 3, 'obj.get(aFoo) after set(aFoo)');
 
-    obj.set('foo', 4);
-    assert.equal(obj.get('foo'), 4, 'obj.get(foo) after disconnected + set(foo)');
-    assert.equal(obj.get('aFoo'), 3, 'obj.get(aFoo) after disconnected + set(foo)');
+      obj.set('foo', 4);
+      assert.equal(obj.get('foo'), 4, 'obj.get(foo) after disconnected + set(foo)');
+      assert.equal(obj.get('aFoo'), 3, 'obj.get(aFoo) after disconnected + set(foo)');
+    });
   });
 
 
-  [alias, readOnly, oneWay].forEach(macro => {
+  [alias, readOnly, reads, oneWay].forEach(macro => {
     test(`${macro.name} has cp semantics`, function(assert) {
       let aFooΔ = 0;
       let fooΔ = 0;
