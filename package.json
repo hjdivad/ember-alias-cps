@@ -1,13 +1,13 @@
 {
   "name": "ember-alias-cps",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.1.0",
+  "description": "Provides CP versions of Ember alias macros",
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
+  "repository": "github.com/hjdivad/ember-alias-cps",
   "license": "MIT",
-  "author": "",
+  "author": "David J. Hamilton <dhamilto@linkedin.com>",
   "directories": {
     "doc": "doc",
     "test": "tests"
