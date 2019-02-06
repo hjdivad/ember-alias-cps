@@ -20,6 +20,17 @@
     "test": "ember test",
     "test:all": "ember try:each"
   },
+  "files": [
+    "package.json",
+    "CHANGELOG.md",
+    "index.js",
+    "LICENSE.md",
+    "README.md",
+    "addon",
+    "app",
+    "blueprints",
+    "config"
+  ],
   "dependencies": {
     "ember-cli-babel": "^6.0.0"
   },
