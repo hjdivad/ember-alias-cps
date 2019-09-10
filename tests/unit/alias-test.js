@@ -1,10 +1,27 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import EmberObject, { observer } from '@ember/object';
+import EmberError from '@ember/error';
 import { reads, alias, readOnly, oneWay } from 'ember-alias-cps';
 
 module('unit/alias', function(hooks) {
   setupTest(hooks);
+
+  hooks.beforeEach(function(assert) {
+
+    this.assertReadOnly = function(obj, prop) {
+      let thrownError = null;
+      try {
+        obj.set(prop, 2);
+      } catch (e) {
+        thrownError = e;
+      }
+
+      assert.notStrictEqual(thrownError, null, 'setting readOnly throws an error');
+      assert.ok(thrownError instanceof EmberError, 'thrown error is an Ember.Error');
+      assert.ok(/Cannot set read-only property "aFoo" on object:/.test(thrownError.message), 'thrown error is as expected');
+    }
+  });
 
   test(`alias semantics`, function(assert) {
     let obj = EmberObject.extend({
@@ -33,9 +50,7 @@ module('unit/alias', function(hooks) {
     assert.equal(obj.get('foo'), 1, 'obj.get(foo)');
     assert.equal(obj.get('aFoo'), 1, 'obj.get(aFoo)');
 
-    assert.throws(() => {
-      obj.set('aFoo', 2);
-    }, /Cannot set read-only property 'aFoo' on object:/);
+    this.assertReadOnly(obj, 'aFoo');
 
     obj.set('foo', 3);
     assert.equal(obj.get('foo'), 3, 'obj.get(foo) after set(foo)');
